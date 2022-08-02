@@ -9,11 +9,14 @@ pu=[]
 tl=[]
 
 with open('sample.txt', 'rb') as fp:
-	
-	headers = BytesParser(policy=default).parse(fp)
-	a = str(headers).split('Received: ')
-	
 
+	headers = BytesParser(policy=default).parse(fp)
+	#For Received headers
+	a = str(headers).split('Received: ')
+	#For Summary
+	l = ['Message-ID: <','Subject: ','From: ','Reply-To: ','To: ']
+	
+	
 	def sender_host(a):
 		print("-------------------------------------------------------------")
 		print("			Sender_host		")
@@ -21,7 +24,10 @@ with open('sample.txt', 'rb') as fp:
 		print("\n")
 		for i in a:
 			tmp = i.split('by')
-			sh.append(tmp[0].replace("\n",""))
+			try:
+				sh.append(tmp[0].replace("\n",""))
+			except:
+				None
 		del sh[0]
 		for i in sh:
 			print(i.strip("from "))
@@ -37,12 +43,17 @@ with open('sample.txt', 'rb') as fp:
 			try:
 				rh.append(tmp[1])
 			except:
-				print("")
+				None
 		for i in rh:
 			print(i)
 		print("\n")
+		print("-------------------------------------------------------------")
+		print("			 No of Hops			")
+		print("-------------------------------------------------------------")
+		print("         		   ",len(rh))
 
 	def protocol_used(a):
+		print("\n")
 		print("-------------------------------------------------------------")
 		print("			Protocol Used		")
 		print("-------------------------------------------------------------")
@@ -52,7 +63,8 @@ with open('sample.txt', 'rb') as fp:
 			try:
 				pu.append(tmp[2])
 			except:
-				print("")
+				None
+
 		for i in pu:
 			print(i.strip(" "))
 		print("\n")
@@ -67,13 +79,52 @@ with open('sample.txt', 'rb') as fp:
 			try:
 				tl.append(tmp[1])
 			except:
-				print("")
+				None
 		for i in tl:
 			print(i)
 		print("\n")
-		print(tl)
+	
+	def summary(b):
+		try:
+			tmp = str(headers).split(b)
+		except:
+			None
+		try:
+			a = tmp[1]
+		except:
+			None
+		d = list(a.split("\n"))
+		try:
+			print(d[0])
+		except:
+			None
+
+	def X_headers():
+		with open('sample.txt', 'rb') as fp:
+			for i in fp:
+				a = str(i).strip("b'")
+				b = a.split('X-')
+				try:
+					print("X-"+b[1].replace('\\n','').replace('\\r',''))
+				except:
+					None
 
 	sender_host(a)
 	received_host(a)
 	protocol_used(a)
 	time_stamp(a)
+	print("-------------------------------------------------------------")
+	print("			Summary		")
+	print("-------------------------------------------------------------")
+	for i in l:
+		if i in str(headers):
+			summary(i)
+		else:
+			print("Header Not Found!")
+	print("\n")
+	print("-------------------------------------------------------------")
+	print("			X-Headers		")
+	print("-------------------------------------------------------------")
+	X_headers()
+
+	
