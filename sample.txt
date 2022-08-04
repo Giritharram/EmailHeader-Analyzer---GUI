@@ -1,57 +1,79 @@
-Received: from BL2PRD0711HT001.namprd07.prod.outlook.com (10.255.104.164) by
- BY2PRD0711HT003.namprd07.prod.outlook.com (10.255.88.166) with Microsoft SMTP
- Server (TLS) id 14.16.257.4; Thu, 17 Jan 2013 23:35:35 +0000
-Received: from BL2PRD0711HT002.namprd07.prod.outlook.com (10.255.104.165) by
- BL2PRD0711HT001.namprd07.prod.outlook.com (10.255.104.164) with Microsoft
- SMTP Server (TLS) id 14.16.257.4; Thu, 17 Jan 2013 23:35:34 +0000
-Received: from mail240-tx2-R.bigfish.com (65.55.88.116) by
- BL2PRD0711HT002.namprd07.prod.outlook.com (10.255.104.165) with Microsoft
- SMTP Server (TLS) id 14.16.257.4; Thu, 17 Jan 2013 23:35:34 +0000
-Received: from mail240-tx2 (localhost [127.0.0.1]) by mail240-tx2-R.bigfish.com (Postfix) with ESMTP id A05C032025F for <jerryp@mail.unomaha.edu>; Thu, 17 Jan 2013 23:35:33 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:59.125.100.113;KIP:(null);UIP:(null);IPV:NLI;H:bf.shako.com.tw;RD:59-125-100-113.HINET-IP.hinet.net;EFVD:NLI
-X-BigFish: ps73(zz7f52hd926hzz1ee6h1de0h1ce5h1202h1e76h1d1ah1d2ahz58hz8275bhz2ei2a8h668h839h940h10d2h1177h1288h12a5h12a9h12bdh137ah139eh13b6h13eah1441h1537h162dh1631h1758h17f1h184fh1898h300k503k953iwa7jk)
-X-FOSE-spam: This message appears to be spam.
-X-SpamScore: 73
-Received-SPF: neutral (mail240-tx2: 59.125.100.113 is neither permitted nor denied by domain of aol.com) client-ip=59.125.100.113; envelope-from=vieria@aol.com; helo=bf.shako.com.tw ;shako.com.tw ;
-Received: from mail240-tx2 (localhost.localdomain [127.0.0.1]) by mail240-tx2
- (MessageSwitch) id 1358465731454940_30539; Thu, 17 Jan 2013 23:35:31 +0000
- (UTC)
-Received: from TX2EHSMHS007.bigfish.com (unknown [10.9.14.242]) by mail240-tx2.bigfish.com (Postfix) with ESMTP id 675424200E7 for <jerryp@mail.unomaha.edu>; Thu, 17 Jan 2013 23:35:31 +0000 (UTC)
-Received: from bf.shako.com.tw (59.125.100.113) by TX2EHSMHS007.bigfish.com
- (10.9.99.107) with Microsoft SMTP Server (TLS) id 14.1.225.23; Thu, 17 Jan
- 2013 23:35:28 +0000
-Received: from mail.shako.com.tw (59-125-100-112.HINET-IP.hinet.net
- [59.125.100.112]) by bf.shako.com.tw (8.14.3/8.14.3) with ESMTP id
- r0HNYCgA013928; Fri, 18 Jan 2013 07:34:12 +0800
-X-Authentication-Warning: bf.shako.com.tw: Host 59-125-100-112.HINET-IP.hinet.net [59.125.100.112] claimed to be mail.shako.com.tw
-Authenticated-By: nobody
-X-SpamFilter-By: BOX Solutions SpamTrap 3.5 with qID r0HNXZSI028539, This message is passed by code: ctdos35128
-Received: from User (85-250-54-29.bb.netvision.net.il[85.250.54.29])
-(authenticated bits=0)
-by mail.shako.com.tw (8.14.3/8.14.3/4.90) with ESMTP
- id r0HNXZSI028539; Fri, 18 Jan 2013 07:33:38 +0800
-X-BOX-Message-Id: r0HNXZSI028539
-Message-ID: <201301172333.r0HNXZSI028539@mail.shako.com.tw>
-X-Authentication-Warning: mail.shako.com.tw: Host 85-250-54-29.bb.netvision.net.il[85.250.54.29] claimed to be User
-Reply-To: <carrr444@yahoo.com>
-From: JOSEPH CAMARAH VIEIRA <vieria@aol.com>
-Subject: [Spam-Mail] Dear Sir/Madam. (This message should be blocked: ctdos35128)
-Date: Fri, 18 Jan 2013 01:46:07 +0200
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To: Undisclosed recipients:;
-Return-Path: 32309uslisidfj@mail.shako.com.tw.com
-X-MS-Exchange-Organization-SCL: 7
-X-MS-Exchange-Organization-AVStamp-Mailbox: MSFTFF;1;0;0 0 0
-X-MS-Exchange-Organization-AuthSource: BL2PRD0711HT002.namprd07.prod.outlook.com
-X-MS-Exchange-Organization-AuthAs: Anonymous
+Delivered-To: giritharram005@gmail.com
+Received: by 2002:a5d:4a01:0:0:0:0:0 with SMTP id m1csp213700wrq;
+        Thu, 4 Aug 2022 04:19:18 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4exLYzl/tYem61+JTOsUeu+5LEKhmuL3vcA4t07GZe7hiLQ6R4/jxa+HiVdqujM85dKtkv
+X-Received: by 2002:a05:622a:10:b0:31f:25de:d7ac with SMTP id x16-20020a05622a001000b0031f25ded7acmr994573qtw.614.1659611958498;
+        Thu, 04 Aug 2022 04:19:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1659611958; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Ui2d8xhIsXl+ID2ZPn+TANx++X4Hyie6lm2TmA89HXGpt8j89IOxh6tazI+VEFcSwj
+         Ey5AauyU2nKj0aIAgLt47Nh5k34laHPu8MigpTlQosrjxtPhXSIQ8WJ3SeACb3w9iGPN
+         4ZaiIocOsYAhN62P5ftNl1JqRQRX99vUySIoRGqX5SQD8A+qm4YZm97/ePULioNYAWMQ
+         IEjUUKS33MHbRXV64il+hTrpyOn2CTwhBztHKpMaCSO+jtPuM3u8k5Isbtk978QQNB+x
+         qS9+Hx77Z/483H6JxhYBcu99PLNZFCICeZcRXiAV8dM0u65UABSq2bLH2GEdPz4arTd2
+         cIPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:message-id:mime-version:feedback-id:subject:reply-to:from:to
+         :domainkey-signature:dkim-signature;
+        bh=Lz6GpiClslOHPxvl13SQQDfn3M2UgPFnem7c1gBdRcs=;
+        b=Bv6OFxkKGox+CnI+9m/ZgeTBwyvsj5WwNkJfj0zZlEcednNQiF8ahV//vPMBG6XNCV
+         asix4CUyBxSz3gIHboAHpa5slTwFaxAwhjEF489oWeeVa8I5H6M8DEanDEACrGPJe+5o
+         M6cMT1NzEvvQIzGLR8dGH+dj41Ubn3N+tEiJJt4WGn+PCcLwsPhxBOH76rnAfhIhZvzC
+         GajUz1i11NC73VgBA/TTYFoCLo6mVJu9BGsaCyN4ivUb67EofIP4nM8sSM22l6/eAdPc
+         ZLSO+ThO3T1aeCThDrpO2br6pNB/QUFtyIAt5+23LLUTV3TXMQ3sJYwETaRWqGRMQ8k/
+         hXEA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@myntra.com header.s=ncfal header.b=lo4O7RLd;
+       spf=pass (google.com: domain of campaign-myntrabuyercom-96861-3513-40270430-giritharram005=gmail.com@myntramailers.myntra.com designates 175.158.66.253 as permitted sender) smtp.mailfrom="campaign-myntrabuyercom-96861-3513-40270430-giritharram005=gmail.com@myntramailers.myntra.com";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=myntra.com
+Return-Path: <campaign-myntrabuyercom-96861-3513-40270430-giritharram005=gmail.com@myntramailers.myntra.com>
+Received: from mta6-66.253.ptransmail.com (mta6-66.253.ptransmail.com. [175.158.66.253])
+        by mx.google.com with ESMTPS id j6-20020ac874c6000000b0031ed6e706a7si428270qtr.777.2022.08.04.04.19.18
+        for <giritharram005@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 04 Aug 2022 04:19:18 -0700 (PDT)
+Received-SPF: pass (google.com: domain of campaign-myntrabuyercom-96861-3513-40270430-giritharram005=gmail.com@myntramailers.myntra.com designates 175.158.66.253 as permitted sender) client-ip=175.158.66.253;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@myntra.com header.s=ncfal header.b=lo4O7RLd;
+       spf=pass (google.com: domain of campaign-myntrabuyercom-96861-3513-40270430-giritharram005=gmail.com@myntramailers.myntra.com designates 175.158.66.253 as permitted sender) smtp.mailfrom="campaign-myntrabuyercom-96861-3513-40270430-giritharram005=gmail.com@myntramailers.myntra.com";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=myntra.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=ncfal; d=myntra.com; h=To:From:Reply-To:Subject:Feedback-ID:MIME-Version:Content-Type:Message-ID:Date:from:to:subject; bh=Lz6GpiClslOHPxvl13SQQDfn3M2UgPFnem7c1gBdRcs=; b=lo4O7RLdEY18ubA6zMdn+7FbGKNNU0WXEoMXPtjBFoOrop5QyA+I687KevSlQtEJgsqALFkHkf7A
+   DOcnJTjrzgy4b8ecqHrtl1IS9XWcMnwoRYHgvNzwhgbLj5HR8mCTqkxUCUPlu7QRoZnxNPnyBTaU
+   n0foOgA1uJdI8jwKutk=
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=ncfal; d=myntra.com; b=5oNSOojedVuKbN187BVhjc0yZ9ldntg43g+OLBRbjLZopTP4BEpagwVQ4bitwzo9mxgJfuXFG7vt
+   Kd0fdA4FOPo1nx6cWvqb5OUIXMnfF861TDoJQ/Lj19ZHBjMjJXayfLsmVC+FCWmAwanGSab2ba6s
+   3AHQGjFDi9rKOfmX0vo=;
+To: giritharram005@gmail.com
+From: Myntra <updates@myntra.com>
+Reply-To: Myntra <updates@myntra.com>
+Subject: Get your freedom to shop till you drop! 😱
+Feedback-ID: 3513:96861:20220804131712:nczc
 MIME-Version: 1.0
-Dear Sir/Madam,
-my name is Joseph Camarah Vieira, i  am from Guinea Bissau, my late father was the former minister of mines in my country Guinea Bissau, he was short dead by the rebels in my country, before his death he deposited $60 million Dollars with Global Trust Security Company Accra Ghana, i want you to help me receive this money in your country for investment in your country i will give you 30% of the total sum when the funds arrive your country.
+Content-Type: multipart/alternative; boundary="b1_0b18dc25d227b0d3a370cdb6bbdb4899"
+Message-ID: <0.0.39.C5A.1D8A7E372FAC7B0.0@mta6-66.253.ptransmail.com>
+Date: Thu, 4 Aug 2022 16:49:18 +0530
 
-Regards.
-Mr Joseph Camarah Vieira
-00233 244 617 863
-my email:carrr444@yahoo.com
+--b1_0b18dc25d227b0d3a370cdb6bbdb4899
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bitin>
+To: giritharram005@gmail.com
+Message-ID: <5al73n.l5w3rjo003war6e@info.swiggy.in>
+Subject: A reminder when you forget 👇
+MIME-Version: 1.0
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Feedback-ID: 1700894992:1700205981:info.swiggy.in:17317
+X-eC-messenger-mid: 1700894992
+List-Id: <1700205981.info.swiggy.in>
+X-eC-messenger-cid: 17317
+X-eC-messenger-token: s4o2z4I80p43mt
+List-Unsubscribe: <https://info.swiggy.in/oneclickunsubscribe?gid=1700205981&uid=17456440421&mid=1700894992&sig=AGNNHLILDLMPLLEO>, <mailto:listunsubscribe-1700205981-1700894992-17456440421@info.swiggy.in>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+X-eC-messenger-sender-domain: bounce.info.swiggy.in
+X-eC-messenger-sendouttypeid: 0
+X-eC-messenger-addresseeroleid: 1
+X-eC-messenger-recipienttypeid: 2
+List-Help: <mailto:abuse@mapp.com>
+X-CSA-Complaints: csa-complaints@eco.de
+X-Mailer: eC-Messenger Build 6.90.5400.1
+X-eC-messenger-email: giritharram005@gmail.com

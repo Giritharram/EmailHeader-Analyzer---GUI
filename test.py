@@ -2,26 +2,23 @@ from dataclasses import replace
 from email.parser import BytesParser, Parser
 from email.policy import default
 import re
+import os
+import sys
+
 
 sh=[]
 rh=[]
 pu=[]
 tl=[]
+l = ['Message-ID: <','Subject: ','From: ','Reply-To: ','To: ','pradeep']
 
 with open('sample.txt', 'rb') as fp:
 
 	headers = BytesParser(policy=default).parse(fp)
 	#For Received headers
-	a = str(headers).split('Received: ')
-	#For Summary
-	l = ['Message-ID: <','Subject: ','From: ','Reply-To: ','To: ']
+	a = str(headers).split('Received: ')		
 	
-	
-	def sender_host(a):
-		print("-------------------------------------------------------------")
-		print("			Sender_host		")
-		print("-------------------------------------------------------------")
-		print("\n")
+	def sender_host(a):	
 		for i in a:
 			tmp = i.split('by')
 			try:
@@ -29,14 +26,14 @@ with open('sample.txt', 'rb') as fp:
 			except:
 				None
 		del sh[0]
+		l = []
 		for i in sh:
-			print(i.strip("from "))
+			t = i.strip("from ")
+			print(t)
 		print("\n")
-
+		
+	
 	def received_host(a):
-		print("-------------------------------------------------------------")
-		print("			Received_host		")
-		print("-------------------------------------------------------------")
 		for i in a:
 			t = i.replace("\n",'')
 			tmp = re.split('by |with|id |\n', t)
@@ -46,17 +43,10 @@ with open('sample.txt', 'rb') as fp:
 				None
 		for i in rh:
 			print(i)
-		print("\n")
-		print("-------------------------------------------------------------")
-		print("			 No of Hops			")
-		print("-------------------------------------------------------------")
-		print("         		   ",len(rh))
+			
+		
 
 	def protocol_used(a):
-		print("\n")
-		print("-------------------------------------------------------------")
-		print("			Protocol Used		")
-		print("-------------------------------------------------------------")
 		for i in a:
 			t = i.replace("\n",'')
 			tmp = re.split('by|with|id|;|\n', t)
@@ -70,9 +60,7 @@ with open('sample.txt', 'rb') as fp:
 		print("\n")
 	
 	def time_stamp(a):
-		print("-------------------------------------------------------------")
-		print("			Time Stamp		")
-		print("-------------------------------------------------------------")
+		
 		for i in a:
 			t = i.replace("\n",'')
 			tmp = re.split('; |X-|\n', t)
@@ -95,7 +83,7 @@ with open('sample.txt', 'rb') as fp:
 			None
 		d = list(a.split("\n"))
 		try:
-			print(d[0])
+			print('{} {}'.format(b,d[0]))
 		except:
 			None
 
@@ -109,22 +97,53 @@ with open('sample.txt', 'rb') as fp:
 				except:
 					None
 
-	sender_host(a)
-	received_host(a)
-	protocol_used(a)
-	time_stamp(a)
-	print("-------------------------------------------------------------")
-	print("			Summary		")
-	print("-------------------------------------------------------------")
-	for i in l:
-		if i in str(headers):
-			summary(i)
-		else:
-			print("Header Not Found!")
-	print("\n")
-	print("-------------------------------------------------------------")
-	print("			X-Headers		")
-	print("-------------------------------------------------------------")
-	X_headers()
-
 	
+
+	if __name__ == "__main__":
+		# sys.stdout = open('a.txt','wt')
+
+		# print("-------------------------------------------------------------")
+		# print("			Sender_host		")
+		# print("-------------------------------------------------------------")
+		# sender_host(a)
+		
+
+		# print("-------------------------------------------------------------")
+		# print("			Received_host		")
+		# print("-------------------------------------------------------------")
+		# received_host(a)
+
+		# print("\n")
+		# print("-------------------------------------------------------------")
+		# print("			 No of Hops			")
+		# print("-------------------------------------------------------------")
+		# print("         		   ",len(rh))
+		
+		# print("\n")
+		# print("-------------------------------------------------------------")
+		# print("			Protocol Used		")
+		# print("-------------------------------------------------------------")
+		# protocol_used(a)
+		
+		# print("-------------------------------------------------------------")
+		# print("			Time Stamp		")
+		# print("-------------------------------------------------------------")
+		# time_stamp(a)
+
+		# print("-------------------------------------------------------------")
+		# print("			Summary		")
+		# print("-------------------------------------------------------------")
+		for i in l:
+			if i in str(headers):
+				summary(i)
+			else:
+				print("Header Not Found!")
+		print("\n")
+		
+		# print("-------------------------------------------------------------")
+		# print("			X-Headers		")
+		# print("-------------------------------------------------------------")
+		# X_headers()
+		
+
+
