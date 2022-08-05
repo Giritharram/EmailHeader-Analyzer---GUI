@@ -81,7 +81,7 @@ with open('sample.txt', 'rb') as fp:
 	
 	def summary(b):
 		try:
-			tmp = str(headers).split(b)
+			tmp = str(headers).replace('\\n','').split(b)
 		except:
 			None
 		try:
@@ -94,6 +94,23 @@ with open('sample.txt', 'rb') as fp:
 		except:
 			None
 	
+	def otherheaders(b):
+		with open('sample.txt','rb') as fp:
+			for i in fp:
+				z = str(i).strip("b'")
+				try:
+					tmp =str(z).replace('\\n','').split(b)
+				except:
+					None
+				try:
+					a = tmp[1]
+				except:
+					None
+			try:
+				print('{} {}'.format(b,a))
+			except:
+				None
+
 	def call_summary():
 		for i in ls:
 			if i in str(headers):
@@ -103,7 +120,7 @@ with open('sample.txt', 'rb') as fp:
 	def call_otherheaders():
 		for i in lo:
 			if i in str(headers):
-				summary(i)
+				otherheaders(i)
 
 	def X_headers():
 		with open('sample.txt', 'rb') as fp:
