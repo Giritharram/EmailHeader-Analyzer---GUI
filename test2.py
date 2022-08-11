@@ -59,6 +59,78 @@ with open('sample.txt','rb') as fp:
 
     
         
+# from os import remove
+# import re
+# ips = []
+# lts= []
+# fli = []
 
+# with open('sample.txt', 'r') as file:
+#     fi = file.readlines()
+#     re_ip = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
+
+# for line in fi:
+#     ip = re.findall(re_ip,line)
+#     ips.append(ip)
+
+# res = list(filter(None,ips))
+
+# for i in res:
+#     if len(i) > 1:
+#         lts.append(i[0])
+#         lts.append(i[1])
+#     else:
+#         lts.append(i)
+
+# for i in lts:
+#     if type(i) is str:
+#         fli.append(list(i.split(" ")))
+#     else:
+#         fli.append(i)
+
+# for i in fli:
+#     print(i)
+
+
+
+
+import requests
+from bs4 import BeautifulSoup
+ip_add = '5.2.72.226'
+api_key = "0016029bda9f2888c76cd394c44f3ab11ee24ddc092c81523060f2294fe29e0a"
+r = requests.get("https://www.virustotal.com/api/v3/ip-address/%s" % ip_add, headers={'User-agent': 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101 Firefox/103.0','x-apikey': '%s' % api_key}).json()
+
+dict_web = r['data']['attributes']['last_analysis_results']
+tot_engine_c=0
+tot_detect_c=0
+result_eng = []
+eng_name = []
+count_harmless = 0
+for i in dict_web:
+    tot_engine_c = 1 + tot_engine_c
+    if dict_web[i]['category'] == "malicios" or dict_web[i]['category'] == "suspicious":
+        result_eng.append(dict_web[i]["result"])
+        eng_name.append(dict_web[i]["engine_name"])
+        tot_detect_c = 1 + tot_detect_c
+res = []
+for i in result_eng:
+    if i not in res:
+        res.append(i)
+
+result_eng = res
+if tot_detect_c > 0:
+    print("The %s was rated for" % ip_add + str(result_eng)[1:-1] + " on " + str(tot_detect_c) + " engines out of " + str(tot_engine_c) + "engines. The reported engines are:" + str(eng_name)[1:-1] + '.')
+else:
+    print("The IP %s " %ip_add + "has been marked harmless")
+
+# import requests
+
+# url = 'https://www.virustotal.com/vtapi/v2/ip-address/report'
+
+# params = {'apikey':'0016029bda9f2888c76cd394c44f3ab11ee24ddc092c81523060f2294fe29e0a','ip':'5.2.72.226'}
+
+# response = requests.get(url, params=params)
+
+# print(response.json())
 
             
