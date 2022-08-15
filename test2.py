@@ -11,6 +11,7 @@
 # pmin = 21
 # pmax = 500
 
+
 # def flatten(l):
 #     fl=[]
 #     for i in l:
@@ -106,9 +107,10 @@
 import re
 import urllib
 import urllib.request
-dnwe = []
-dnwht = []
-dnwhts = []
+from xml import dom
+domain_names = []
+urllist = []
+reputation_list=[]
 # Get TLD database
 resp = urllib.request.urlopen('http://data.iana.org/TLD/tlds-alpha-by-domain.txt')
 
@@ -125,7 +127,6 @@ with open('sample.txt') as fp:
     fqdn_list = []
     for line in fp.readlines():
         line = line.strip().lower()
-
         # Remove comments and blank lines
         if (len(line) == 0) or line.startswith('#'):
             continue
@@ -135,36 +136,42 @@ with open('sample.txt') as fp:
             fqdn_list.append(fqdn[0])
 
 
-# for i in fqdn_list:
-    # if '=' in i and '"' not in i: 
-    #     tmp1 = i.split('=')
-        # print(tmp)
-    # if 'http' in i:
-    #     try:
-    #         tmp2 = i.split('http:')
-    #         try:
-    #             dnwht.append('http:'+tmp2[1])
-    #         except:
-    #             None
-    #     except:
-    #         None
-    # if 'https' in i:
-    #     try:
-    #         tmp2 = i.split('https')
-    #         dnwhts.append('https'+tmp2[1])
-    #     except:
-    #         None
-    # if len(i)>=10:
-    #     print(i,"No")
-    # print(i)
+for i in fqdn_list:
+    if 'http' not in i and ':' not in i and ';' not in i and '==' not in i:
+        if '=' in i : 
+            tmp1 = i.split('=')
+            if len(tmp1)>0:
+                domain_names.append(tmp1[1])
+            else:
+                domain_names.append(tmp1)
+        if '<' in i : 
+            tmp1 = i.split('<')
+            domain_names.append(tmp1[1])
 
-# print(dnwht)
-# print('------')
-# print(dnwhts)
-# print(len(fqdn_list))
+        if '(' in i : 
+            tmp1 = i.split('(')
+            domain_names.append(tmp1[1])
+
+        if 'http' not in i and ':' not in i and ';' not in i and '==' not in i and '<' not in i and '(' not in i and '=' not in i and '-' not in i and '/' not in i and i not in domain_names and len(i) > 10:
+            domain_names.append(i)
+
 
 with open("sample.txt") as file:
         for line in file:
-            urls = re.findall('https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', line)
-            print(urls)
-# a = str(fqdn_list).split()
+            if 'http' in line:
+                urls = re.findall('https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', line)
+                for i in urls:
+                    if len(str(i)) > 12 and '.' in i:
+                        urllist.append(str(i))
+
+
+tmp1 = list(set(urllist))
+tmp2 = list(set(domain_names))
+
+# print(tmp1)
+# print("------")
+# print(tmp2)
+# print("------")
+reputation_list = tmp1 + tmp2
+print(reputation_list)
+print(len(reputation_list))
