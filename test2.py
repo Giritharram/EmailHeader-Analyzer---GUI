@@ -1,12 +1,8 @@
-from ast import Return
-from pdb import pm
 import requests
 import re
 import socket
 import urllib
-from urllib.parse import urlsplit
 import urllib.request
-from xml import dom
 from opentip.client import OpenTIP
 
 
@@ -203,7 +199,7 @@ def domain_info(lst):
     client = OpenTIP('M0vRyKJSTAyhB0R7LMuv9Q==')
     for i in lst:
         a = client.get_verdict_by_ioc('domain', i)
-        if '"Zone":"Green"' in a or '"Zone":"Gray"' in a:
+        if '"Zone":"Green"' in a or '"Zone":"Grey"' in a:
             None
         else:
             print(a)
@@ -213,7 +209,11 @@ def url_info(lst):
     for i in lst:
         a = client.get_verdict_by_ioc('url', i)
         print(a)
-        if '"Zone":"Green"' in a or '"Zone":"Gray"' in a:
+        if '"Zone":"Green"' in a or '"Zone":"Grey"' in a:
             None
         else:
             print(a)
+
+
+print(extract_domain())
+domain_info(extract_domain())
