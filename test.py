@@ -3,8 +3,6 @@ from email.parser import BytesParser, Parser
 from email.policy import default
 import re
 
-
-
 sh=[]
 rh=[]
 pu=[]
@@ -22,8 +20,9 @@ with open('sample.txt', 'rb') as fp:
 	#For Received headers
 	a = str(headers).split('Received: ')		
 	
-	def sender_host(a):	
-		for i in a:
+	def sender_host(p=a):
+		snd_host = []	
+		for i in p:
 			tmp = i.split('by')
 			try:
 				sh.append(tmp[0].replace("\n",""))
@@ -32,50 +31,62 @@ with open('sample.txt', 'rb') as fp:
 		del sh[0]
 		l = []
 		for i in sh:
-			t = i.strip("from ")
-			print(t)
-		print("\n")
+			t = i.strip("from")
+			snd_host.append(t)
+		snd_host.reverse()
+		return snd_host
 		
 	
-	def received_host(a):
-		for i in a:
+	def received_host(p=a):
+		for i in p:
 			t = i.replace("\n",'')
 			tmp = re.split('by |with|id |\n', t)
 			try:
 				rh.append(tmp[1])
 			except:
 				None
-		for i in rh:
-			print(i)
+		rh.reverse()
+		return rh
 			
 		
 
-	def protocol_used(a):
-		for i in a:
+	def protocol_used(p=a):
+		for i in p:
+			# pro_used=[]
 			t = i.replace("\n",'')
-			tmp = re.split('by|with|id|;|\n', t)
+			tmp = re.split('with|id|\n', t)
 			try:
-				pu.append(tmp[2])
+				pu.append(tmp[1])
 			except:
 				None
-
-		for i in pu:
-			print(i.strip(" "))
-		print("\n")
+		pu.reverse()
+		return pu
 	
-	def time_stamp(a):
-		
+	def time_stamp(p=a):
+		time_st = []
 		for i in a:
-			t = i.replace("\n",'')
-			tmp = re.split('; |X-|\n', t)
+			t = i.replace("\n",'').replace('  ','')
+			tmp = re.split(';|X-|\n', t)
 			try:
 				tl.append(tmp[1])
 			except:
 				None
 		for i in tl:
-			print(i)
-		print("\n")
+			try:
+				t = i.split(')')
+				time_st.append(t[0]+')')
+			except:
+				None
+		time_st.reverse()
+		return time_st
 	
+	def no_of_hops():
+		hops = []
+		for i in range(len(rh)+1):
+			hops.append(i)
+		del hops[0]
+		return hops
+
 	def summary(b):
 		try:
 			tmp = str(headers).replace('\\n','').split(b)
@@ -129,7 +140,6 @@ with open('sample.txt', 'rb') as fp:
 				except:
 					None
 
-	
 
 	if __name__ == "__main__":
 
@@ -137,30 +147,32 @@ with open('sample.txt', 'rb') as fp:
 		print("-------------------------------------------------------------")
 		print("			Sender_host		")
 		print("-------------------------------------------------------------")
-		sender_host(a)
+		print(sender_host())
+		print('\n')
 		
 
 		print("-------------------------------------------------------------")
 		print("			Received_host		")
 		print("-------------------------------------------------------------")
-		received_host(a)
-
+		print(received_host())
+		
 		print("\n")
 		print("-------------------------------------------------------------")
 		print("			 No of Hops			")
 		print("-------------------------------------------------------------")
-		print("         		   ",len(rh))
+		print(no_of_hops())
 		
 		print("\n")
 		print("-------------------------------------------------------------")
 		print("			Protocol Used		")
 		print("-------------------------------------------------------------")
-		protocol_used(a)
+		print(protocol_used())
 		
 		print("-------------------------------------------------------------")
 		print("			Time Stamp		")
 		print("-------------------------------------------------------------")
-		time_stamp(a)
+		print(time_stamp())
+		print('\n')
 
 		print("-------------------------------------------------------------")
 		print("			Summary		")
