@@ -26,8 +26,6 @@ th {
 </style>
 </head>
 <body>
-  <!-- <div class="row">
-    <div class="column"> -->
       <table>
         <tr>
           <th>Hop</th>
@@ -45,6 +43,28 @@ th {
               <td> {{ timestamp_result[loop.index0]  }} </td>
          {% endfor %}
          </tr>
+        </table>
+        <br>
+        <table>
+          <tr>
+            <th>Summary</th>
+          </tr>
+          {% for i in summary_result %}
+          <tr>
+              <td>{{ i }}</td>   
+              {% endfor %}         
+          </tr>
+        </table>
+        <br>
+        <table>
+          <tr>
+            <th>Other Headers</th>
+          </tr>
+          {% for i in otherheaders_result %}
+          <tr>
+              <td>{{ i }}</td>   
+              {% endfor %}         
+          </tr>
         </table>
    </body>
 </html>
