@@ -1,11 +1,17 @@
 import requests
 import re
-import socket
+import nmap
 import urllib
 import urllib.request
 from opentip.client import OpenTIP
 
 
+mal_op = []
+nonmal_op = []
+mal_ip = []
+nonmal_ip = []
+pmin = 21
+pmax = 50
 
 def flatten(l):
     fl=[]
@@ -27,6 +33,8 @@ def extract_ip():
         re_ip = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
 
     for line in fi:
+        if '127.0.0.1' in line:
+            continue
         ip = re.findall(re_ip,line)
         ip_add.append(ip)
 
@@ -115,12 +123,7 @@ def extract_url():
 
 
 def ip_info(lst):
-    mal_op = []
-    nonmal_op = []
-    mal_ip = []
-    nonmal_ip = []
-    pmin = 21
-    pmax = 50
+    nmi = ['No IPs were found to be malicious']
     for k in lst:
         url = ("https://www.virustotal.com/api/v3/ip_addresses/%s" % k)
         headers = {
@@ -130,7 +133,6 @@ def ip_info(lst):
         r = requests.get(url, headers=headers).json()
         try:
             dict_web = r['data']['attributes']['last_analysis_results']
-
             tot_engine_c=0
             tot_detect_c=0
             result_eng = []
@@ -146,63 +148,58 @@ def ip_info(lst):
             for i in result_eng:
                 if i not in res:
                     res.append(i)
-
             result_eng = res
 
             if tot_detect_c > 0:
-                print("The IP %s was rated for " % k + str(result_eng)[1:-1] + " on " + str(tot_detect_c) + " engines out of " + str(tot_engine_c) + " engines. \n")
-                print("The reported engines are: \n")
+                # print("The IP %s was rated for " % k + str(result_eng)[1:-1] + " on " + str(tot_detect_c) + " engines out of " + str(tot_engine_c) + " engines. \n")
+                # print("The reported engines are: \n")
                 mal_ip.append(k)
-                for i in eng_name:
-                    print(i)
-                print("\n")
+                # for i in eng_name:
+                #     print(i)
+                # print("\n")
             else:
-                print("The IP %s   has been marked harmless" %k)
+                # print("The IP %s   has been marked harmless" %k)
                 nonmal_ip.append(k)
         
         except:
             None
 
-    if len(mal_ip) > 0:
-        for j in mal_ip:
-            for port in range(pmin,pmax+1):
-                try:
-                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                        s.settimeout(0.5)
-                        s.connect((j,port))
-                        mal_op.append(port)
-                except:
-                    None
+    if len(mal_ip)>0:
+        return mal_ip
+    else:
+        return nmi
+
+def openport(): 
+    for i in mal_ip:
+        nm = nmap.PortScanner()
+        nof = ['No Open ports found']
+        nm.scan(i, '20-1024')
+        oport = []
+        portst = []
+        try:
+            if nm[host].state() == 'up':
+                for host in nm.all_hosts():
+                    for proto in nm[host].all_protocols():
+                        lport = nm[host][proto].keys()
+                    for port in lport:
+                        oport.append(port)
+                        portst.append(nm[host][proto][port]['state'])
+        except:
+            return nof
         
-            for i in mal_op:
-                    print(f"Port {i} is open on {j}.")
-            
-            if len(mal_op) == 0 and len(mal_ip) > 0:
-                print(f"No open ports for {j} found between the specified range !" )
+        if len(oport) > 0:
+            return oport,portst
+    
 
-    if len(nonmal_ip) > 0:
-        for j in nonmal_ip:
-            for port in range(pmin,pmax+1):
-                try:
-                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                        s.settimeout(0.5)
-                        s.connect((j,port))
-                        nonmal_op.append(port)
-                except:
-                    None
-            for i in nonmal_op:
-                    print(f"Port {i} is open on {j}.")
-            if len(nonmal_op) == 0:
-                print(f"No open ports for {j} found between the specified range !")
-
-def domain_info(lst):
+def domain_info():
     client = OpenTIP('M0vRyKJSTAyhB0R7LMuv9Q==')
-    for i in lst:
-        a = client.get_verdict_by_ioc('domain', i)
-        if '"Zone":"Green"' in a or '"Zone":"Grey"' in a:
-            None
-        else:
-            print(a)
+    # for i in lst:
+    a = client.get_verdict_by_ioc('domain', 'sibidharan.me')
+    print(a)
+    # if '"Zone":"Green"' in a or '"Zone":"Grey"' in a:
+    #     print(a)
+    # else:
+    #     print(a)
 
 def url_info(lst):
     client = OpenTIP('M0vRyKJSTAyhB0R7LMuv9Q==')
@@ -214,6 +211,10 @@ def url_info(lst):
         else:
             print(a)
 
+malipinfo = ip_info(extract_ip())
 
-print(extract_domain())
-domain_info(extract_domain())
+p =openport()
+print(p)
+
+
+

@@ -52,5 +52,9 @@ X-MS-Exchange-Organization-MessageDirectionality: Incoming
 X-Forefront-Antispam-Report: CIP:148.163.152.157;IPV:NLI;CTRY:US;EFV:NLI;SFV:SKN;SFS:;DIR:INB;SFP:;SCL:-1;SRVR:CY1PR0701MB1819;H:mx0b-00261b01.pphosted.com;FPR:;SPF:None;LANG:en;
 MIME-Version: 1.0
 
+
+5.255.99.205
+8.24.178.211
+
 <html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">    </head>    <body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class="">    Dear Dr. Gandhi,<br class="">    <br class="">    You are doing very very good work with the Gencyber Camp.&nbsp;<br class="">    Just let me know what you need to make it bigly successful next year!<br class="">    Please put in your funding request here:&nbsp;<a href="https://robinagandhi.github.io/phishing-demo/encoding.html" class="">Grant Application</a><br class=""> <br class=""><div class="">~Yours Truly<br class=""><font color="#ff2600" class="">Donald</font></div></body></html>
