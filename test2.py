@@ -10,8 +10,7 @@ mal_op = []
 nonmal_op = []
 mal_ip = []
 nonmal_ip = []
-pmin = 21
-pmax = 50
+
 
 def flatten(l):
     fl=[]
@@ -108,7 +107,7 @@ def extract_domain():
     return domain_names
 
 def extract_url():
-    urllist = []
+    urllist = []    
     with open("sample.txt") as file:
             for line in file:
                 if 'http' in line:
@@ -116,8 +115,6 @@ def extract_url():
                     for i in urls:
                         if len(str(i)) > 12 and '.' in i:
                             urllist.append(str(i))
-
-
     urllist = list(set(urllist))
     return urllist
 
@@ -137,7 +134,6 @@ def ip_info(lst):
             tot_detect_c=0
             result_eng = []
             eng_name = []
-            count_harmless = 0
             for i in dict_web:
                 tot_engine_c = 1 + tot_engine_c
                 if dict_web[i]['category'] == "malicious" or dict_web[i]['category'] == "suspicious":
@@ -169,30 +165,32 @@ def ip_info(lst):
     else:
         return nmi
 
-def openport(): 
-    for i in mal_ip:
-        nm = nmap.PortScanner()
-        nof = ['No Open ports found']
-        nm.scan(i, '20-1024')
-        oport = []
-        portst = []
-        try:
-            if nm[host].state() == 'up':
-                for host in nm.all_hosts():
-                    for proto in nm[host].all_protocols():
-                        lport = nm[host][proto].keys()
+def ports(h):
+    nm = nmap.PortScanner()
+    host = h
+    nm.scan(host, '20-1024')
+    oport = []
+    # portst = []
+    f = 'No open ports found'
+    try:
+        if nm[host].state() == 'up':
+            for host in nm.all_hosts():
+                for proto in nm[host].all_protocols():
+                    lport = nm[host][proto].keys()
+                    # lport.sort()
                     for port in lport:
                         oport.append(port)
-                        portst.append(nm[host][proto][port]['state'])
-        except:
-            return nof
+                        # portst.append(nm[host][proto][port]['state'])
+    except:
+        return f
         
-        if len(oport) > 0:
-            return oport,portst
+    return oport
+    # if len(oport) > 0:
+    #     print(oport,portst)
     
 
 def domain_info():
-    client = OpenTIP('M0vRyKJSTAyhB0R7LMuv9Q==')
+    client = OpenTIP('uAQFmZvDTOW6pmyaB4M5Rg==')
     # for i in lst:
     a = client.get_verdict_by_ioc('domain', 'sibidharan.me')
     print(a)
@@ -202,19 +200,29 @@ def domain_info():
     #     print(a)
 
 def url_info(lst):
-    client = OpenTIP('M0vRyKJSTAyhB0R7LMuv9Q==')
+    client = OpenTIP('uAQFmZvDTOW6pmyaB4M5Rg==')
     for i in lst:
-        a = client.get_verdict_by_ioc('url', i)
+        a = client.get_verdict_by_ioc('url', i+'/')
         print(a)
-        if '"Zone":"Green"' in a or '"Zone":"Grey"' in a:
-            None
-        else:
-            print(a)
-
-malipinfo = ip_info(extract_ip())
-
-p =openport()
-print(p)
+        # if '"Zone":"Green"' in a or '"Zone":"Grey"' in a:
+        #     None
+        # else:
+        #     print(a)
 
 
+
+# print(mal_ip)
+
+def port_result():
+    a = {}
+    for i in mal_ip:
+        b=ports(i)
+        a[i]=b
+    return a
+    # for i in z:
+    #     print(i,type(i))
+
+    # return flatten(a)
+# print(port_result())
+url_info(extract_url())
 

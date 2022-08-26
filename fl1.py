@@ -1,11 +1,13 @@
 from test import *
 from test2 import *
-from flask import Flask, render_template
+# import re
+from urllib import request
+from flask import Flask, render_template, request
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 @app.route('/')
-def result():
+def result1():
    hop = no_of_hops()
    seh = sender_host()
    reh = received_host()
@@ -17,13 +19,16 @@ def result():
    summary_result=sumry,otherheaders_result=othehe)
 
 @app.route('/info')
-def result1():
-   mip = malipinfo
+def result2():
+   mip = ip_info(extract_ip())
    noi = extract_ip()
    return render_template('result2.html',allips=noi,malipinfo=mip)
 
-# @app.route('/portscan')
-# def result2():
-#    if 
+@app.route('/getip')
+def result3():
+   ipi = port_result()
+   return render_template('result3.html',ipportscan=ipi)
+
 if __name__ == '__main__':
    app.run(debug = True)
+
