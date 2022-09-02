@@ -20,9 +20,9 @@ th {
   background-color: #4b5ab1;
   color: white;
 }
-/* td {
+td,th {
   border: 2px solid;
-} */
+}
 </style>
 </head>
 <body>
@@ -41,8 +41,9 @@ th {
               <td> {{ received_result[loop.index0]  }} </td>
               <td> {{ proto_used[loop.index0]  }} </td>
               <td> {{ timestamp_result[loop.index0]  }} </td>
-         {% endfor %}
-         </tr>
+              {% endfor %}
+            </tr>
+        
         </table>
         <br>
         <table>

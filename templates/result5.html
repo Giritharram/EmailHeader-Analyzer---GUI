@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+<style>
+table{
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.table1 td, th {
+  text-align: center;
+  border: 1px solid #ddd;
+  padding: 8px;
+ 
+}
+
+table.table1 th {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+  background-color: #4b5ab1;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table.table2 td, th {
+  text-align: center;
+  border: 1px solid  #dddcdc;
+  padding: 8px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.table2 th {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+  background-color:rgb(187, 4, 4);
+  color: white;
+}
+
+</style>
+<br><br>
+<body>
+    <table class="table1">
+        <tr>
+            <th>Extracted Domains</th>
+        </tr>
+        {% for i in alldomain %}
+        <tr>
+            <td> {{ i }} </td>
+            {% endfor %}  
+        </tr>
+    </table>
+</body>
+    </head>
+    <br><br>
+<body>
+    <table class="table2">
+        <tr>
+            <th>Domains that are found to be malicous</th>
+        </tr>
+        {% for i in maldomaininfo %}
+        <tr>
+            <td> {{ i }} </td>
+            {% endfor %}  
+        </tr>
+    </table>
+</body>
+</html>

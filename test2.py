@@ -1,15 +1,20 @@
+from ast import Return
 import requests
 import re
 import nmap
 import urllib
 import urllib.request
 from opentip.client import OpenTIP
+import time
+import whois
 
 
 mal_op = []
 nonmal_op = []
 mal_ip = []
 nonmal_ip = []
+maldomain=[]
+nonmaldomain=[]
 
 
 def flatten(l):
@@ -61,7 +66,9 @@ def extract_ip():
 
 def extract_domain():
     fqdn_list = []
+    tmp_domain = []
     domain_names = []
+
     resp = urllib.request.urlopen('http://data.iana.org/TLD/tlds-alpha-by-domain.txt')
 
     # Create a reverse sorted list of TLD ('.com' must be before '.co')
@@ -89,22 +96,33 @@ def extract_domain():
             if '=' in i : 
                 tmp1 = i.split('=')
                 if len(tmp1)>0:
-                    domain_names.append(tmp1[1])
+                    tmp_domain.append(tmp1[1])
                 else:
-                    domain_names.append(tmp1)
+                    tmp_domain.append(tmp1)
             if '<' in i : 
                 tmp1 = i.split('<')
-                domain_names.append(tmp1[1])
+                tmp_domain.append(tmp1[1])
 
             if '(' in i : 
                 tmp1 = i.split('(')
-                domain_names.append(tmp1[1])
+                tmp_domain.append(tmp1[1])
 
-            if 'http' not in i and ':' not in i and ';' not in i and '==' not in i and '<' not in i and '(' not in i and '=' not in i and '-' not in i and '/' not in i and '%' not in i and i not in domain_names and len(i) > 7:
-                domain_names.append(i)
+            if 'http' not in i and ':' not in i and ';' not in i and '==' not in i and '<' not in i and '(' not in i and '=' not in i and '-' not in i and '/' not in i and '%' not in i and i not in tmp_domain and len(i) > 7:
+                tmp_domain.append(i)
     
+    # domain_names = list(set(domain_names))
+    for i in tmp_domain:
+        if 'ppops' in i or 'google.com' in i or 'gmail.com' in i:
+            continue
+        if '@' in i:
+            a = i.split('@')
+            domain_names.append(a[1])
+        else:
+            domain_names.append(i)
     domain_names = list(set(domain_names))
+    
     return domain_names
+
 
 def extract_url():
     urllist = []    
@@ -125,10 +143,11 @@ def ip_info(lst):
         url = ("https://www.virustotal.com/api/v3/ip_addresses/%s" % k)
         headers = {
             "Accept": "application/json",
-            "x-apikey": "0016029bda9f2888c76cd394c44f3ab11ee24ddc092c81523060f2294fe29e0a"
+            "x-apikey": "ecb19838262d000479df6b9e09c58f5ce47832b20c7e4f55adfbc4238b16445b"
         }
-        r = requests.get(url, headers=headers).json()
         try:
+            r = requests.get(url, headers=headers).json()
+        
             dict_web = r['data']['attributes']['last_analysis_results']
             tot_engine_c=0
             tot_detect_c=0
@@ -189,27 +208,69 @@ def ports(h):
     #     print(oport,portst)
     
 
-def domain_info():
-    client = OpenTIP('uAQFmZvDTOW6pmyaB4M5Rg==')
+def url_info(lst):
+    malurl = []
+    nonmalurl = []
+    error_info=['Error occured']
+    nmu = ['No URLs were found to be malicious']
+    try: 
+        for k in lst:
+            url = 'https://www.virustotal.com/vtapi/v2/url/report'
+            params = {'apikey': 'ecb19838262d000479df6b9e09c58f5ce47832b20c7e4f55adfbc4238b16445b', 'resource':k }
+            response = requests.get(url, params=params)
+            r = response.json()
+
+            if r['positives']>0:
+                malurl.append(k)
+            else:
+                nonmalurl.append(k)
+    except:
+        return error_info
+    
+    if len(malurl)>0:
+        return malurl
+    else:
+        return nmu
+    # client = OpenTIP('uAQFmZvDTOW6pmyaB4M5Rg==')
     # for i in lst:
-    a = client.get_verdict_by_ioc('domain', 'sibidharan.me')
-    print(a)
+    # a = client.get_verdict_by_ioc('domain', 'sibidharan.me')
+    # print(a)
     # if '"Zone":"Green"' in a or '"Zone":"Grey"' in a:
     #     print(a)
     # else:
     #     print(a)
 
-def url_info(lst):
-    client = OpenTIP('uAQFmZvDTOW6pmyaB4M5Rg==')
-    for i in lst:
-        a = client.get_verdict_by_ioc('url', i+'/')
-        print(a)
-        # if '"Zone":"Green"' in a or '"Zone":"Grey"' in a:
-        #     None
-        # else:
-        #     print(a)
-
-
+def domain_info(lst):
+    error_info = ["Error occured"]
+    nmd = ['No domains were found to be malicious']
+    count = 0
+    print(lst)
+    try:
+        for k in lst:
+            count += 1
+            print(count)
+            print(k)
+            if count%4 == 0:
+                time.sleep(62)
+            url = 'https://www.virustotal.com/vtapi/v2/domain/report'
+            params = {'apikey':'bcc1f94cc4ec1966f43a5552007d6c4fa3461cec7200f8d95053ebeeecc68afa','domain':k}
+            r = requests.get(url, params=params).json()
+            print(r)
+            try:
+                if r.get('detected_urls')[0].get('positives') > 0:
+                    maldomain.append(k)
+            except:
+                nonmaldomain.append(k)
+        print(maldomain,'-malicious')
+        print(nonmaldomain,'-nonmalicious')
+    
+    except:
+        return error_info
+    
+    if len(maldomain)>0:
+        return maldomain
+    else:
+        return nmd
 
 # print(mal_ip)
 
@@ -223,6 +284,66 @@ def port_result():
     #     print(i,type(i))
 
     # return flatten(a)
-# print(port_result())
-url_info(extract_url())
 
+def ip_passivedns(lst):
+    fli = {}
+    nrf = ['No records found']
+    nftb = ['No IPs were found to be malicious']
+    errorinfo = ['Error Occured  or API Quota may have exceeded']
+    if 'No IPs were found to be malicious' in lst:
+        fli['']=nftb            
+        return fli
+
+    else:
+        try:
+            count = 0
+            for k in lst:
+                count += 1
+                if count%4 == 0:
+                    time.sleep(62)
+                url = 'https://www.virustotal.com/vtapi/v2/ip-address/report'
+
+                params = {'apikey':'ecb19838262d000479df6b9e09c58f5ce47832b20c7e4f55adfbc4238b16445b','ip':k}
+
+                r = requests.get(url, params=params).json()
+
+                print(k)
+                print('***************')
+                print(r['resolutions'])
+                j = r['resolutions']
+                print(len(j))
+                if len(j) < 1:
+                    fli[k]=nrf
+                else:
+                    fli[k]=j
+                print('-------------')
+            return fli
+        except:
+            fli['']=errorinfo
+            return fli
+                            
+def whoisdata():
+    mip=mal_ip
+    mdomain=maldomain
+    d = {}
+    ndifm = {"No Domain or IP" :" were found to be malicious"}
+    error_info = ['Error Occured']
+    try:
+        if len(mip) < 1 and len(mdomain) < 1:
+            d['']=ndifm
+            return d    
+        else:
+            k = mip+mdomain
+            for i in k:
+                w = whois.whois(i)
+                d[i]=w
+            return d
+    except:
+        d['']=error_info
+        return d
+# print(ip_passivedns())
+# print(extract_url())
+# print(url_info(extract_url()))
+# print(ip_info(extract_ip()))
+# print(domain_info(extract_domain()))
+# print(whoisdata())
