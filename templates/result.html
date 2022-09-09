@@ -1,0 +1,87 @@
+<html>  
+<head>  
+    <title>upload</title>  
+</head>
+<style>
+    .custom-file-input {
+  color: transparent;
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Upload a EML or TXT file';
+  color: black;
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active {
+  outline: 0;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+}
+
+body {
+  padding: 20px;
+}
+
+input[type=submit] {
+  content: 'Sumbit';
+  color: black;
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #00dfdf, #ffffff);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+h1{
+    text-align: center;
+    text-shadow: 2px 2px 5px red;
+}
+body  {
+  background-color: #a09e9e;
+}
+
+p {
+    text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
+}
+</style>  
+<body>
+    <br><br><br><br><br><br><br><br><br>
+    <h1> EH Analyser</h1>
+    <br><br><br><br><br>
+    <center>  
+    <form action = "/home" method = "post" enctype="multipart/form-data">  
+        <input type="file" class="custom-file-input" name="file" />  
+        <input type = "submit" value="Upload">
+        <br><br><br><br><br>  
+        {% with messages = get_flashed_messages() %}  
+        {% if messages %}  
+              {% for message in messages %}  
+                   <p style="font-size:25px;">{{ message }}</p>  
+              {% endfor %}  
+        {% endif %}  
+     {% endwith %}  
+    </form> 
+</center> 
+</body>  
+</html>  

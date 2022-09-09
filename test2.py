@@ -1,13 +1,11 @@
-from ast import Return
 import requests
 import re
 import nmap
 import urllib
 import urllib.request
-from opentip.client import OpenTIP
 import time
 import whois
-
+from test import *
 
 mal_op = []
 nonmal_op = []
@@ -17,16 +15,7 @@ maldomain=[]
 nonmaldomain=[]
 
 
-def flatten(l):
-    fl=[]
-    for i in l:
-        if type(i) is list:
-            for item in i:
-                fl.append(item)
-        else:
-            fl.append(i)
-    return fl
-
+#function to extract ip address present in the sample.txt file
 def extract_ip():
     ip_add = []
     lts = []
@@ -63,7 +52,7 @@ def extract_ip():
     return fnl
 
 
-
+#function to extract domain names present in the sample.txt file
 def extract_domain():
     fqdn_list = []
     tmp_domain = []
@@ -123,7 +112,7 @@ def extract_domain():
     
     return domain_names
 
-
+#function to extract URLs present in the sample.txt file
 def extract_url():
     urllist = []    
     with open("sample.txt") as file:
@@ -137,6 +126,7 @@ def extract_url():
     return urllist
 
 
+#function to find malicious IP from the extracted IPs from sample.txt file
 def ip_info(lst):
     nmi = ['No IPs were found to be malicious']
     for k in lst:
@@ -166,14 +156,8 @@ def ip_info(lst):
             result_eng = res
 
             if tot_detect_c > 0:
-                # print("The IP %s was rated for " % k + str(result_eng)[1:-1] + " on " + str(tot_detect_c) + " engines out of " + str(tot_engine_c) + " engines. \n")
-                # print("The reported engines are: \n")
                 mal_ip.append(k)
-                # for i in eng_name:
-                #     print(i)
-                # print("\n")
             else:
-                # print("The IP %s   has been marked harmless" %k)
                 nonmal_ip.append(k)
         
         except:
@@ -184,76 +168,81 @@ def ip_info(lst):
     else:
         return nmi
 
+#function to find open ports for the malicious IPs if exist
 def ports(h):
     nm = nmap.PortScanner()
     host = h
     nm.scan(host, '20-1024')
     oport = []
-    # portst = []
-    f = 'No open ports found'
     try:
         if nm[host].state() == 'up':
             for host in nm.all_hosts():
                 for proto in nm[host].all_protocols():
                     lport = nm[host][proto].keys()
-                    # lport.sort()
                     for port in lport:
                         oport.append(port)
-                        # portst.append(nm[host][proto][port]['state'])
+                        
     except:
-        return f
-        
-    return oport
-    # if len(oport) > 0:
-    #     print(oport,portst)
+        None
     
+    return oport
 
+# function to return open port result of a malicious IP if exist as a dictionary
+def port_result():
+    a = {}
+    nmi = {"No IPs" :" were found to be malicious"}
+    if len(mal_ip) > 0:
+        for i in mal_ip:
+            b=ports(i)
+            a[i]=b
+        return a
+    else:
+        return nmi
+
+    
+#function to find malicious URL from the extracted URLs from sample.txt file
 def url_info(lst):
     malurl = []
     nonmalurl = []
-    error_info=['Error occured']
     nmu = ['No URLs were found to be malicious']
-    try: 
-        for k in lst:
+    count = 0
+    for k in lst:
             url = 'https://www.virustotal.com/vtapi/v2/url/report'
             params = {'apikey': 'ecb19838262d000479df6b9e09c58f5ce47832b20c7e4f55adfbc4238b16445b', 'resource':k }
-            response = requests.get(url, params=params)
-            r = response.json()
-
-            if r['positives']>0:
-                malurl.append(k)
-            else:
-                nonmalurl.append(k)
-    except:
-        return error_info
+            if count!=0 and count%4 == 0:
+                time.sleep(62)
+            count += 1
+            try: 
+                response = requests.get(url, params=params)
+                r = response.json()
+                print(r)
+                print("--------------------------------------------------------------------------")
+                if r['positives']>0:
+                    malurl.append(k)
+                else:
+                    nonmalurl.append(k)
+            except:
+                None
     
     if len(malurl)>0:
         return malurl
     else:
         return nmu
-    # client = OpenTIP('uAQFmZvDTOW6pmyaB4M5Rg==')
-    # for i in lst:
-    # a = client.get_verdict_by_ioc('domain', 'sibidharan.me')
-    # print(a)
-    # if '"Zone":"Green"' in a or '"Zone":"Grey"' in a:
-    #     print(a)
-    # else:
-    #     print(a)
 
+#function to find malicious domain from the extracted domains from sample.txt file
 def domain_info(lst):
     error_info = ["Error occured"]
     nmd = ['No domains were found to be malicious']
     count = 0
     print(lst)
-    try:
-        for k in lst:
-            count += 1
-            print(count)
-            print(k)
-            if count%4 == 0:
-                time.sleep(62)
-            url = 'https://www.virustotal.com/vtapi/v2/domain/report'
-            params = {'apikey':'bcc1f94cc4ec1966f43a5552007d6c4fa3461cec7200f8d95053ebeeecc68afa','domain':k}
+    for k in lst:
+        if count!=0 and count%4 == 0:
+            time.sleep(62)
+        count += 1
+        print(count)
+        url = 'https://www.virustotal.com/vtapi/v2/domain/report'
+        params = {'apikey':'bcc1f94cc4ec1966f43a5552007d6c4fa3461cec7200f8d95053ebeeecc68afa','domain':k}
+        try:
             r = requests.get(url, params=params).json()
             print(r)
             try:
@@ -261,30 +250,17 @@ def domain_info(lst):
                     maldomain.append(k)
             except:
                 nonmaldomain.append(k)
-        print(maldomain,'-malicious')
-        print(nonmaldomain,'-nonmalicious')
-    
-    except:
-        return error_info
+        except:
+            None
+    print(maldomain,'-malicious')
+    print(nonmaldomain,'-nonmalicious')    
     
     if len(maldomain)>0:
         return maldomain
     else:
         return nmd
 
-# print(mal_ip)
-
-def port_result():
-    a = {}
-    for i in mal_ip:
-        b=ports(i)
-        a[i]=b
-    return a
-    # for i in z:
-    #     print(i,type(i))
-
-    # return flatten(a)
-
+#function to find passivedns for the malicious IPs if exist
 def ip_passivedns(lst):
     fli = {}
     nrf = ['No records found']
@@ -321,7 +297,8 @@ def ip_passivedns(lst):
         except:
             fli['']=errorinfo
             return fli
-                            
+
+#function to find whoisdata for malicious IPs and Domains if exist    
 def whoisdata():
     mip=mal_ip
     mdomain=maldomain
@@ -341,9 +318,4 @@ def whoisdata():
     except:
         d['']=error_info
         return d
-# print(ip_passivedns())
-# print(extract_url())
-# print(url_info(extract_url()))
-# print(ip_info(extract_ip()))
-# print(domain_info(extract_domain()))
-# print(whoisdata())
+

@@ -10,12 +10,12 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['UPLOAD_FOLDER'] = ''
 app.config['ALLOWED_EXTENSION'] = ['EML','TXT']
 app.config['TXT_EXTENSION'] = ['TXT']
+app.secret_key='abcdef990099'
 
 def allowed_file(filename):
     if not '.' in filename:
         return False
     ext = filename.rsplit('.',1)[1]
-
     if ext.upper() in app.config['ALLOWED_EXTENSION']:
         return True
     else:
@@ -35,11 +35,11 @@ def upload_image():
             file = request.files['file']
 
             if file.filename == "":
-                print("The file should have a filename")
+                flash("Please Upload a file")
                 return redirect(request.url)
 
             if not allowed_file(file.filename):
-                print("The file extension is not allowed")
+                flash("The file extension is not allowed")
                 return redirect(request.url)
             else:
                 if txtfile(file.filename):
@@ -53,19 +53,23 @@ def upload_image():
                     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                     return redirect('/headerresult')
 
-    return render_template('test.html')
+    return render_template('result.html')
 
-@app.route('/headerresult')
-def result1():
-   seh = sender_host()
-   reh = received_host()
-   hop = no_of_hops()
-   protu = protocol_used()
-   timst = time_stamp()
-   sumry = call_summary()
-   othehe = combine_Xh_and_Oh()
-   return render_template('result1.html', no_of_hop=hop,sender_result=seh,received_result=reh,proto_used=protu,timestamp_result=timst,
-   summary_result=sumry,otherheaders_result=othehe)
+try:
+    @app.route('/headerresult')
+    def result1():
+        seh = sender_host()
+        reh = received_host()
+        hop = no_of_hops()
+        protu = protocol_used()
+        timst = time_stamp()
+        sumry = call_summary()
+        othehe = combine_Xh_and_Oh()
+        return render_template('result1.html', no_of_hop=hop,sender_result=seh,received_result=reh,proto_used=protu,timestamp_result=timst,
+        summary_result=sumry,otherheaders_result=othehe)
+
+except:
+    print("Error")
 
 @app.route('/ipinfo')
 def result2():
@@ -101,5 +105,5 @@ def result7():
    return render_template('result7.html',whois_data=whoisifo)
 
 if __name__ == '__main__':
-   app.run(debug = True)
+    app.run(debug = True)
 
